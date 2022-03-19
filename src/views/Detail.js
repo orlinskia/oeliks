@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Button, Card, Col, Collapse, Row} from "react-bootstrap";
+import {useParams} from "react-router-dom";
 
 
 const Detail = () => {
 
     const [data, setData] = useState({});
+    const {id} = useParams();
 
     function Example() {
         const [open, setOpen] = useState(false);
@@ -34,11 +36,11 @@ const Detail = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('/adverts/4');
+            const response = await axios.get(`/adverts/${id}`);
             setData(response.data);
         }
         fetchData();
-    }, []);
+    }, [id]);
 
     return (
         <div>

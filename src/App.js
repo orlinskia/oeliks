@@ -1,50 +1,52 @@
 import logo from './logo.svg';
 import './App.css';
-import { Container, Image, Nav, Navbar} from "react-bootstrap";
+import {Container, Image, Nav, Navbar} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Detail from "./views/Detail";
 import List from "./views/List";
 
 function App() {
-  return (
-      <BrowserRouter>
+    return (
+        <BrowserRouter>
 
 
-        <Navbar bg="dark" variant="dark">
-          <Container>
+            <Navbar bg="dark" variant="dark">
+                <Container>
 
-            <LinkContainer to="/">
-              <Navbar.Brand>
-                <Image src={logo} width={40} height={40}/>
-              </Navbar.Brand>
-            </LinkContainer>
+                    <LinkContainer to="/">
+                        <Navbar.Brand>
+                            <Image src={logo} width={40} height={40}/>
+                        </Navbar.Brand>
+                    </LinkContainer>
 
-            <Nav className="me-auto">
-              <LinkContainer to="/">
-                <Nav.Link>Home</Nav.Link>
-              </LinkContainer>
+                    <Nav className="me-auto">
+                        <LinkContainer to="/">
+                            <Nav.Link>Home</Nav.Link>
+                        </LinkContainer>
 
-              <LinkContainer to="/list">
-                <Nav.Link>List</Nav.Link>
-              </LinkContainer>
+                        <LinkContainer to="/list">
+                            <Nav.Link>List</Nav.Link>
+                        </LinkContainer>
 
-              <LinkContainer to="/details">
-                <Nav.Link>Details</Nav.Link>
-              </LinkContainer>
-            </Nav>
-          </Container>
-        </Navbar>
+                        <LinkContainer to="/details">
+                            <Nav.Link>Details</Nav.Link>
+                        </LinkContainer>
+                    </Nav>
+                </Container>
+            </Navbar>
 
-        <Container>
-          <Routes>
-            <Route path="/" element={<h1>Hello</h1>}/>
-            <Route path="/list" element={<List/>}/>
-            <Route path="/details" element={<Detail/>}/>
-          </Routes>
-        </Container>
-      </BrowserRouter>
-  );
+            <Container>
+                <Routes>
+                    <Route path="/" element={<h1>Hello</h1>}/>
+                    <Route path="/list" element={<List/>}/>
+                    <Route path="/details">
+                        <Route path={':id'} element={<Detail/>}/>
+                    </Route>
+                </Routes>
+            </Container>
+        </BrowserRouter>
+    );
 }
 
 export default App;
