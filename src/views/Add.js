@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import * as yup from 'yup';
 import {Formik} from "formik";
 import {Button, Col, InputGroup, Row, Form, ListGroupItem} from "react-bootstrap";
@@ -18,6 +19,7 @@ const schema = yup.object().shape({
 const Add = () => {
 
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,20 +29,23 @@ const Add = () => {
         fetchData();
     }, []);
 
-
+    const handleFormSubmit = async(values) => {
+        const request = {...values, createdOn:new Date().toISOString()}
+        const response = await axios.post('/adverts', request);
+        const id = response.data.id;
+        navigate(`/details/${id}`)
+    }
 
     return (
 
         <Formik
             validationSchema={schema}
-            onSubmit={(e) => {
-                e.createdOn = new Date().toString();
-                console.log(e);
-            }}
+            onSubmit={handleFormSubmit}
             initialValues={{
                 title: '',
                 price: '',
                 description: '',
+                image: 'http://placeimg.com/400/400/business',
                 seller: '',
                 sellerPhone: '',
                 canNegotiate: false,
