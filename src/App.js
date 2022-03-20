@@ -5,6 +5,7 @@ import {LinkContainer} from "react-router-bootstrap";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Detail from "./views/Detail";
 import List from "./views/List";
+import Add from "./views/Add";
 
 function App() {
     return (
@@ -29,8 +30,10 @@ function App() {
                             <Nav.Link>List</Nav.Link>
                         </LinkContainer>
 
-                        <LinkContainer to="/details">
-                            <Nav.Link>Details</Nav.Link>
+
+
+                        <LinkContainer to="/add">
+                            <Nav.Link>Add</Nav.Link>
                         </LinkContainer>
                     </Nav>
                 </Container>
@@ -43,6 +46,7 @@ function App() {
                     <Route path="/details">
                         <Route path={':id'} element={<Detail/>}/>
                     </Route>
+                    <Route path="/add" element={<Add/>}/>
                 </Routes>
             </Container>
         </BrowserRouter>
