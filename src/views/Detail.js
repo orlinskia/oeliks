@@ -1,14 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Button, Card, Col, Collapse, Row} from "react-bootstrap";
+import {Button, Card, Col, Collapse, Modal, Row} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import {LinkContainer} from "react-router-bootstrap";
+import {useNavigate} from 'react-router-dom';
 
 
 const Detail = () => {
 
     const [data, setData] = useState({});
     const {id} = useParams();
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const navigate = useNavigate();
 
     function Example() {
         const [open, setOpen] = useState(false);
@@ -43,13 +50,40 @@ const Detail = () => {
         fetchData();
     }, [id]);
 
+    const deleteData = async () => {
+        const response = await axios.delete(`/adverts/${id}`);
+        handleClose();
+        navigate(`/list`)
+    }
+
     return (
         <div>
             <Card className="text-center">
                 <Card.Header><h1>{data.title}</h1>
                     <LinkContainer to={`/details/${data.id}/edit`} key={data.id}>
                         <Button type="submit">Edit advert</Button>
-                    </LinkContainer></Card.Header>
+                    </LinkContainer>
+
+                    <Button variant="danger" onClick={handleShow}>
+                        Delete
+                    </Button>
+
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Confirmation</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Do you want to delete the advert?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={deleteData}>
+                                Confirm
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                </Card.Header>
                 <Card.Body>
                     <Card.Text>
                         <Row>
