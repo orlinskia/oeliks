@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Button, Card, Col, Collapse, Row} from "react-bootstrap";
 import {useParams} from "react-router-dom";
+import {LinkContainer} from "react-router-bootstrap";
 
 
 const Detail = () => {
@@ -45,7 +46,10 @@ const Detail = () => {
     return (
         <div>
             <Card className="text-center">
-                <Card.Header><h1>{data.title}</h1></Card.Header>
+                <Card.Header><h1>{data.title}</h1>
+                    <LinkContainer to={`/details/${data.id}/edit`} key={data.id}>
+                        <Button type="submit">Edit advert</Button>
+                    </LinkContainer></Card.Header>
                 <Card.Body>
                     <Card.Text>
                         <Row>
@@ -57,7 +61,6 @@ const Detail = () => {
                                 <p>Price: ${data.price}</p>
                                 <p>Negotiation possible: {data.canNegotiate ? "Yes" : "No"}</p>
                                 <Example/>
-
 
                             </Col>
                         </Row>

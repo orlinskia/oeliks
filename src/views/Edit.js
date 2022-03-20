@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import * as yup from 'yup';
 import {Formik} from "formik";
 import {Button, Col, InputGroup, Row, Form, ListGroupItem} from "react-bootstrap";
 import axios from "axios";
 import {LinkContainer} from "react-router-bootstrap";
-
 
 const schema = yup.object().shape({
     title: yup.string().required().max(50),
@@ -28,32 +27,42 @@ const initialValues = {
     categoryId: 0
 }
 
-const Add = () => {
+const Edit = () => {
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
+    const [categories, setCategories] = useState([]);
+    const {id} = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('/categories');
+            const response = await axios.get(`/adverts/${id}`);
             setData(response.data);
         }
         fetchData();
-    }, []);
+    }, [id]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get(`/categories/`);
+            setCategories(response.data);
+        }
+        fetchData();
+    }, [id]);
 
     const handleFormSubmit = async(values) => {
-        const request = {...values, createdOn:new Date().toISOString()}
-        const response = await axios.post('/adverts', request);
+        const response = await axios.patch(`/adverts/${data.id}`, values);
         const id = response.data.id;
         navigate(`/details/${id}`)
     }
 
+    console.log(data);
     return (
-
         <Formik
             validationSchema={schema}
             onSubmit={handleFormSubmit}
-            initialValues={initialValues}
+            initialValues={{...initialValues, ...data}}
+            enableReinitialize
         >
             {({
                   handleSubmit,
@@ -148,7 +157,7 @@ const Add = () => {
                             value={values.categoryId}
                             onChange={handleChange}>
 
-                            {data.map((advert) => (
+                            {categories.map((advert) => (
                                     <option value={advert.id} key={advert.id}>{advert.title}</option>
 
 
@@ -171,7 +180,7 @@ const Add = () => {
                     </Form.Group>
 
 
-                    <Button type="submit">Add</Button>
+                    <Button type="submit">Edit</Button>
 
                 </Form>
             )}
@@ -179,4 +188,4 @@ const Add = () => {
     );
 };
 
-export default Add;
+export default Edit;

@@ -6,6 +6,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Detail from "./views/Detail";
 import List from "./views/List";
 import Add from "./views/Add";
+import Edit from "./views/Edit";
 
 function App() {
     return (
@@ -44,9 +45,11 @@ function App() {
                     <Route path="/" element={<h1>Hello</h1>}/>
                     <Route path="/list" element={<List/>}/>
                     <Route path="/details">
+                        <Route path={':id/edit'} element={<Edit/>}/>
                         <Route path={':id'} element={<Detail/>}/>
                     </Route>
                     <Route path="/add" element={<Add/>}/>
+
                 </Routes>
             </Container>
         </BrowserRouter>
