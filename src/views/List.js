@@ -21,7 +21,7 @@ const List = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('/adverts', {params: {title_like: searchForm}});
+            const response = await axios.get('/adverts', {params: {title_like: searchForm, _sort:'createdOn', _order:'desc'}});
             setData(response.data);
         }
         fetchData();
@@ -63,7 +63,7 @@ const List = () => {
                                 </Col>
                                 <Col className="my-3" ys={"auto"}>
                                     <h1>{advert.title}</h1>
-                                    <p>Price: ${advert.price}</p>
+                                    <p>Price: {advert.price? `$${advert.price}` : "For free"}</p>
                                 </Col>
                             </Row>
 

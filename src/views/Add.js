@@ -112,7 +112,7 @@ const Add = () => {
                     </Row>
                     <Row className="mb-3">
                         <Form.Group as={Col} md="6" controlId="validationFormik03">
-                            <Form.Label>City</Form.Label>
+                            <Form.Label>Seller</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="seller"
