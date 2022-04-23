@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import {Formik} from "formik";
 import {Button, Col, InputGroup, Row, Form, ListGroupItem} from "react-bootstrap";
 import axios from "axios";
-import {LinkContainer} from "react-router-bootstrap";
+import {useFetchData} from "../hooks/useFetchData";
 
 
 const schema = yup.object().shape({
@@ -29,17 +29,10 @@ const initialValues = {
 }
 
 const Add = () => {
-
-    const [data, setData] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get('/categories');
-            setData(response.data);
-        }
-        fetchData();
-    }, []);
+    const data = useFetchData(`/categories/`, [])
+
 
     const handleFormSubmit = async(values) => {
         const request = {...values, createdOn:new Date().toISOString()}

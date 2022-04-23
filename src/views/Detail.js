@@ -10,7 +10,6 @@ import {useFetchData} from "../hooks/useFetchData";
 
 const Detail = () => {
 
-    //const [data, setData] = useState({});
     const {id} = useParams();
 
     const [show, setShow] = useState(false);
@@ -45,14 +44,6 @@ const Detail = () => {
             </>
         );
     }
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const response = await axios.get(`/adverts/${id}`);
-    //         setData(response.data);
-    //     }
-    //     fetchData();
-    // }, [id]);
 
     const deleteData = async () => {
         const response = await axios.delete(`/adverts/${id}`);

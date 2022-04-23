@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import {Formik} from "formik";
 import {Button, Col, InputGroup, Row, Form, ListGroupItem} from "react-bootstrap";
 import axios from "axios";
-import {LinkContainer} from "react-router-bootstrap";
+import {useFetchData} from "../hooks/useFetchData";
 
 const schema = yup.object().shape({
     title: yup.string().required().max(50),
@@ -29,26 +29,11 @@ const initialValues = {
 
 const Edit = () => {
 
-    const [data, setData] = useState({});
-    const [categories, setCategories] = useState([]);
     const {id} = useParams();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get(`/adverts/${id}`);
-            setData(response.data);
-        }
-        fetchData();
-    }, [id]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get(`/categories/`);
-            setCategories(response.data);
-        }
-        fetchData();
-    }, [id]);
+    const data = useFetchData(`/adverts/${id}`, {});
+    const categories = useFetchData(`/categories/`, []);
 
     const handleFormSubmit = async(values) => {
         const response = await axios.patch(`/adverts/${data.id}`, values);

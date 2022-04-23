@@ -2,31 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {Button, Card, Col, Form, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import axios from "axios";
 import {LinkContainer} from "react-router-bootstrap";
+import {useFetchData} from "../hooks/useFetchData";
 
 const List = () => {
-    const [data, setData] = useState([]);
     const [titleSearch, setTitleSearch] = useState("");
     const [searchForm, setSearchForm] = useState();
 
+    const data = useFetchData('/adverts', []);
     const handleTitleSearchChange = (e) =>
     {
         setTitleSearch(e.target.value);
     }
 
-    const handleSubmit = (e) =>
-    {
+    const handleSubmit = (e) => {
         e.preventDefault()
         setSearchForm(titleSearch);
     }
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get('/adverts', {params: {title_like: searchForm, _sort:'createdOn', _order:'desc'}});
-            setData(response.data);
-        }
-        fetchData();
-    }, [searchForm]);
-
 
     return (
         <div>
