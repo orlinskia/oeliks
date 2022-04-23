@@ -4,11 +4,13 @@ import {Button, Card, Col, Collapse, Modal, Row} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import {LinkContainer} from "react-router-bootstrap";
 import {useNavigate} from 'react-router-dom';
+import {useFetchData} from "../hooks/useFetchData";
+
 
 
 const Detail = () => {
 
-    const [data, setData] = useState({});
+    //const [data, setData] = useState({});
     const {id} = useParams();
 
     const [show, setShow] = useState(false);
@@ -16,6 +18,8 @@ const Detail = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const navigate = useNavigate();
+
+    const data = useFetchData(`/adverts/${id}`,{});
 
     function Example() {
         const [open, setOpen] = useState(false);
@@ -42,13 +46,13 @@ const Detail = () => {
         );
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get(`/adverts/${id}`);
-            setData(response.data);
-        }
-        fetchData();
-    }, [id]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const response = await axios.get(`/adverts/${id}`);
+    //         setData(response.data);
+    //     }
+    //     fetchData();
+    // }, [id]);
 
     const deleteData = async () => {
         const response = await axios.delete(`/adverts/${id}`);
