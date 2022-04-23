@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Button, Card, Col, Form, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import axios from "axios";
 import {LinkContainer} from "react-router-bootstrap";
@@ -8,7 +8,11 @@ const List = () => {
     const [titleSearch, setTitleSearch] = useState("");
     const [searchForm, setSearchForm] = useState();
 
-    const data = useFetchData('/adverts', []);
+    const config = useMemo( () => (
+        {params: {title_like: searchForm, _sort:'createdOn', _order:'desc'}}
+    ), [searchForm]);
+
+    const data = useFetchData('/adverts', [], config);
     const handleTitleSearchChange = (e) =>
     {
         setTitleSearch(e.target.value);
